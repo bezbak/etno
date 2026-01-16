@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Этно кафе — меню</title>
+  <meta name="description" content="Этно кафе. Национальная кухня. Меню." />
+  <link rel="shortcut icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#efe3d0] text-[#3a2a1a]">
+  <svg width="0" height="0" class="hidden">
+  <symbol id="shyrdak" viewBox="0 0 200 20" preserveAspectRatio="none">
+    <path d="M0 10 Q10 0 20 10 T40 10 T60 10 T80 10 T100 10 T120 10 T140 10 T160 10 T180 10 T200 10"
+          fill="none"
+          stroke="#8b3a3a"
+          stroke-width="3"/>
+  </symbol>
+</svg>
+
+
+<!-- HEADER -->
+<header class="text-center py-8 border-b border-[#c9a46a] relative">
+  <h1 class="text-4xl font-bold tracking-widest">ЭТНО КАФЕ</h1>
+  <p class="mt-2 text-sm opacity-70">У истока традиций</p>
+
+  <!-- орнамент -->
+  <div class="mt-4 flex justify-center">
+  <svg class="w-64 h-6">
+    <use href="#shyrdak"></use>
+  </svg>
+</div>
+
+</header>
+
+<!-- CATEGORY TABS -->
+<nav id="tabs" class="flex justify-center gap-6 py-6 flex-wrap text-sm font-semibold"></nav>
+
+<!-- MENU -->
+<main id="menu" class="max-w-7xl mx-auto px-4 pb-16"></main>
+
+<div class="flex justify-center my-12 opacity-70">
+  <svg class="w-96 h-6">
+    <use href="#shyrdak"></use>
+  </svg>
+</div>
+<!-- FOOTER -->
+<footer class="bg-[#3a2a1a] text-[#efe3d0] py-10">
+  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6">
+    <div>
+      <h3 class="text-xl font-bold mb-2">⛰ У истока традиций</h3>
+      <p>Заведение для хорошего времяпровождения 🍷🥩</p>
+    </div>
+    <div class="space-y-1">
+      <p>📍 Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)</p>
+      <p>🕐 11:00 – 23:00</p>
+      <a href="https://www.instagram.com/ethno.cafe"
+         target="_blank"
+         class="inline-block mt-2 underline text-[#c9a46a]">
+        Instagram
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+let allData = []
+let activeCategory = null
+
+fetch('/api/menu/')
+  .then(r => r.json())
+  .then(data => {
+    allData = data
+    renderTabs()
+    setCategory(data[0].id)
+  })
+
+function renderTabs() {
+  const tabs = document.getElementById('tabs')
+  tabs.innerHTML = ''
+
+  allData.forEach(cat => {
+    const btn = document.createElement('button')
+    btn.textContent = cat.name.toUpperCase()
+    btn.className = `
+      px-4 py-2 border-b-2
+      ${activeCategory === cat.id 
+        ? 'border-[#8b3a3a] text-[#8b3a3a]' 
+        : 'border-transparent opacity-60 hover:opacity-100'}
+    `
+    btn.onclick = () => setCategory(cat.id)
+    tabs.appendChild(btn)
+  })
+}
+
+function setCategory(id) {
+  activeCategory = id
+  renderTabs()
+
+  const category = allData.find(c => c.id === id)
+  const root = document.getElementById('menu')
+
+  root.innerHTML = `
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+      ${category.dishes.map(d => `
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-[#d6c2a3]">
+          
+          <div class="h-40 bg-gray-200">
+            <img src="${d.image || '/static/no-photo.jpg'}"
+                 alt="${d.name}"
+                 class="w-full h-full object-cover">
+          </div>
+
+          <div class="p-4 space-y-2">
+            <h3 class="font-bold text-lg">${d.name}</h3>
+            <p class="text-sm opacity-70">${d.description || ''}</p>
+
+            <div class="flex justify-between items-center pt-2">
+              <span class="text-sm">${d.weight} г</span>
+              <span class="font-bold text-[#8b3a3a]">${d.price} сом</span>
+            </div>
+          </div>
+
+        </div>
+      `).join('')}
+    </div>
+  `
+}
+</script>
+
+</body>
+</html>
