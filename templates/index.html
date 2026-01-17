@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <title>Этно кафе — меню</title>
   <meta name="description" content="Этно кафе. Национальная кухня. Меню." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{% static 'лого этно.png' %}" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -33,7 +34,7 @@
 </style>
 </head>
 
-<body class="bg-[#efe3d0] text-[#3a2a1a] "style="background-image: url('{%static '123 .png'%}');background-size: cover;">
+<body class="bg-[#efe3d0] text-[#3a2a1a] "style="background-image: url('{%static 'bgh.png'%}');background-size: cover;">
 <svg width="0" height="0" class="hidden">
   <!-- Фоновый паттерн -->
   <pattern id="ethno-bg" width="120" height="120" patternUnits="userSpaceOnUse">
@@ -56,12 +57,7 @@
 
 
 <!-- HEADER -->
-<header
-  class="relative text-center
-         py-4 md:py-12
-         px-6 md:px-16
-         border-y-4 border-[#8b3a3a]
-         overflow-hidden"
+<header class="relative text-center py-4 md:py-12 px-4 md:px-16 border-y-4 border-[#8b3a3a]"
          style="background-image: url('{%static 'bgh.png'%}');background-size: cover; background-repeat:no-repeat;">
   <div class="absolute w-full h-full bg-black left-0 top-0" style="opacity: 0.55;"></div>
   <!-- PATTERN GRID -->
