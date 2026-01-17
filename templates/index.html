@@ -5,46 +5,96 @@
   <meta charset="UTF-8" />
   <title>Этно кафе — меню</title>
   <meta name="description" content="Этно кафе. Национальная кухня. Меню." />
-  <link rel="shortcut icon" href="{% static 'logo.jpg' %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% static 'лого этно.png' %}" type="image/x-icon">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-[#efe3d0] text-[#3a2a1a]">
-  <svg width="0" height="0" class="hidden">
-  <symbol id="shyrdak" viewBox="0 0 200 20" preserveAspectRatio="none">
-    <path d="M0 10 Q10 0 20 10 T40 10 T60 10 T80 10 T100 10 T120 10 T140 10 T160 10 T180 10 T200 10"
+<body class="bg-[#efe3d0] text-[#3a2a1a] "style="background-image: url('{%static '123 .png'%}');background-size: cover;">
+<svg width="0" height="0" class="hidden">
+  <!-- Фоновый паттерн -->
+  <pattern id="ethno-bg" width="120" height="120" patternUnits="userSpaceOnUse">
+    <path d="M60 0 L120 60 L60 120 L0 60 Z"
+          fill="none"
+          stroke="#c9a46a"
+          stroke-width="2"
+          opacity="0.25"/>
+  </pattern>
+
+  <!-- Рамка -->
+  <pattern id="ethno-border" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M0 20 Q20 0 40 20 Q20 40 0 20"
           fill="none"
           stroke="#8b3a3a"
-          stroke-width="3"/>
-  </symbol>
+          stroke-width="2"/>
+  </pattern>
 </svg>
 
 
-<!-- HEADER -->
-<header class="text-center py-8 border-b border-[#c9a46a] relative">
-  <h1 class="text-4xl font-bold tracking-widest">ЭТНО КАФЕ</h1>
-  <p class="mt-2 text-sm opacity-70">У истока традиций</p>
 
-  <!-- орнамент -->
-  <div class="mt-4 flex justify-center">
-  <svg class="w-64 h-6">
-    <use href="#shyrdak"></use>
-  </svg>
+<!-- HEADER -->
+<header
+  class="relative text-center
+         py-4 md:py-12
+         px-6 md:px-16
+         border-y-4 border-[#8b3a3a]
+         overflow-hidden"
+         style="background-image: url('{%static 'bgh.png'%}');background-size: cover; background-repeat:no-repeat;">
+  <div class="absolute w-full h-full bg-black left-0 top-0" style="opacity: 0.55;"></div>
+  <!-- PATTERN GRID -->
+<div
+  id="pattern-layer"
+  class="absolute inset-0 z-0 opacity-40 pointer-events-none">
 </div>
+
+  <!-- УГЛЫ -->
+  {% comment %} <img src="/svg/1 441.svg"
+       class="absolute bottom-0 left-0 w-32 opacity-25 z-0 pointer-events-none" />
+  <img src="/svg/1 441.svg"
+       class="absolute bottom-0 right-0 w-32 opacity-25 z-0 scale-x-[-1] pointer-events-none" />
+  <img src="/svg/1 441.svg"
+       class="absolute top-0 left-0 w-32 opacity-25 z-0 scale-y-[-1] pointer-events-none" />
+  <img src="/svg/1 441.svg"
+       class="absolute top-0 right-0 w-32 opacity-25 z-0 scale-x-[-1] scale-y-[-1] pointer-events-none" /> {% endcomment %}
+
+  <!-- КОНТЕНТ -->
+  <div class="relative z-10 flex flex-col items-center gap-2 md:gap-3 text-[#fefefe]">
+    <h1 class="text-4xl font-bold tracking-widest flex items-center justify-center">
+      <img src="{% static 'лого этно.png' %}" class="w-40 h-30" alt="">
+    </h1>
+
+    <p class="text-4xl font-bold ">Кафе</p>
+    <p class="text-lg font-semibold">У истока традиций</p>
+  </div>
 
 </header>
 
-<!-- CATEGORY TABS -->
-<nav id="tabs" class="flex justify-center gap-6 py-6 flex-wrap text-sm font-semibold"></nav>
+<section class="relative overflow-hidden" style="background-image: url('{%static 'bg2.png'%}');background-size: cover; min-height:50vh;">
+  <div class="absolute w-full h-full bg-black left-0 top-0" style="opacity: 0.4;"></div>
 
-<!-- MENU -->
-<main id="menu" class="max-w-7xl mx-auto px-4 pb-16"></main>
+  <!-- УГЛЫ -->
+  <img src="{%static '1 441.svg' %}"
+       class="absolute bottom-0 left-0 w-32 opacity-20 z-0" />
 
-<div class="flex justify-center my-12 opacity-70">
-  <svg class="w-96 h-6">
-    <use href="#shyrdak"></use>
-  </svg>
-</div>
+  <img src="{%static '1 441.svg' %}"
+       class="absolute bottom-0 right-0 w-32 opacity-20 z-0 scale-x-[-1]" />
+
+  <img src="{%static '1 441.svg' %}"
+       class="absolute top-0 left-0 w-32 opacity-20 z-0 scale-y-[-1]" />
+
+  <img src="{%static '1 441.svg' %}"
+       class="absolute top-0 right-0 w-32 opacity-20 z-0 scale-x-[-1] scale-y-[-1]" />
+
+  <!-- КОНТЕНТ -->
+  <nav id="tabs"
+       class="relative z-10 flex justify-center gap-6 py-6 flex-wrap text-sm font-semibold">
+  </nav>
+
+  <main id="menu"
+        class="relative z-10 max-w-7xl mx-auto px-4 pb-16">
+  </main>
+
+</section>
+
 <!-- FOOTER -->
 <footer class="bg-[#3a2a1a] text-[#efe3d0] py-10">
   <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6">
@@ -53,12 +103,12 @@
       <p>Заведение для хорошего времяпровождения 🍷🥩</p>
     </div>
     <div class="space-y-1">
-      <p>📍 Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)</p>
+      <p class="flex gap-2 text-lg"> Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)</p>
       <p>🕐 11:00 – 23:00</p>
       <a href="https://www.instagram.com/ethno.cafe"
          target="_blank"
-         class="inline-block mt-2 underline text-[#c9a46a]">
-        Instagram
+         class="inline-block mt-2 underline w-16 h-16">
+        <img src="{% static 'inst.png' %}" style="filter: invert(1);" alt="">
       </a>
     </div>
   </div>
@@ -86,8 +136,8 @@ function renderTabs() {
     btn.className = `
       px-4 py-2 border-b-2
       ${activeCategory === cat.id 
-        ? 'border-[#8b3a3a] text-[#8b3a3a]' 
-        : 'border-transparent opacity-60 hover:opacity-100'}
+        ? 'border-[#8b3a3a] text-[#fefefe]' 
+        : 'border-transparent opacity-60 hover:opacity-100 text-[#fefefeeb]'}
     `
     btn.onclick = () => setCategory(cat.id)
     tabs.appendChild(btn)
@@ -127,6 +177,65 @@ function setCategory(id) {
     </div>
   `
 }
+</script>
+<script>
+(() => {
+  const patterns = [
+    "{% static '2.svg' %}",
+    "{% static '3.svg' %}",
+    "{% static '4.svg' %}"
+  ];
+
+  const layer = document.getElementById("pattern-layer");
+
+  function generatePatterns() {
+    layer.innerHTML = "";
+
+    const w = window.innerWidth;
+    const h = layer.offsetHeight;
+
+    // ЛОГИКА АДАПТАЦИИ
+    const size = w < 640 ? 28 : w < 1024 ? 40 : 48;
+    const gap  = w < 640 ? 40 : w < 1024 ? 60 : 80;
+
+    const cols = Math.floor(w / gap);
+    const rows = 6
+
+    const count = cols * rows;
+
+    for (let i = 0; i < count; i++) {
+      const img = document.createElement("img");
+
+      img.src = patterns[i % patterns.length];
+      img.style.width = size + "px";
+      img.style.height = "auto";
+      img.style.position = "absolute";
+
+      // позиционирование
+      const x = (i % cols) * gap + Math.random() * 20;
+      const y = Math.floor(i / cols) * gap + Math.random() * 20;
+
+      img.style.left = x + "px";
+      img.style.top = y + "px";
+
+      // лёгкий хаос
+      img.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+      img.style.opacity = "1";
+
+      layer.appendChild(img);
+    }
+  }
+
+  // первичная генерация
+  generatePatterns();
+
+  // адаптация при ресайзе
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(generatePatterns, 150);
+  });
+})();
 </script>
 
 </body>
