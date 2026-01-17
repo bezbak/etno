@@ -32,29 +32,11 @@
   scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
 }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
+
 </head>
 
-<body class="bg-[#efe3d0] text-[#3a2a1a] "style="background-image: url('{%static 'bgh.png'%}');background-size: cover;">
-<svg width="0" height="0" class="hidden">
-  <!-- Фоновый паттерн -->
-  <pattern id="ethno-bg" width="120" height="120" patternUnits="userSpaceOnUse">
-    <path d="M60 0 L120 60 L60 120 L0 60 Z"
-          fill="none"
-          stroke="#c9a46a"
-          stroke-width="2"
-          opacity="0.25"/>
-  </pattern>
-
-  <!-- Рамка -->
-  <pattern id="ethno-border" width="40" height="40" patternUnits="userSpaceOnUse">
-    <path d="M0 20 Q20 0 40 20 Q20 40 0 20"
-          fill="none"
-          stroke="#8b3a3a"
-          stroke-width="2"/>
-  </pattern>
-</svg>
-
-
+<body class=" bg-[#efe3d0] text-[#3a2a1a]" style="background-image: url('{%static 'bgh.png'%}');background-size: cover;">
 
 <!-- HEADER -->
 <header class="relative text-center py-4 md:py-12 px-4 md:px-16 border-y-4 border-[#8b3a3a]"
@@ -66,30 +48,20 @@
   class="absolute inset-0 z-0 opacity-40 pointer-events-none">
 </div>
 
-  <!-- УГЛЫ -->
-  {% comment %} <img src="/svg/1 441.svg"
-       class="absolute bottom-0 left-0 w-32 opacity-25 z-0 pointer-events-none" />
-  <img src="/svg/1 441.svg"
-       class="absolute bottom-0 right-0 w-32 opacity-25 z-0 scale-x-[-1] pointer-events-none" />
-  <img src="/svg/1 441.svg"
-       class="absolute top-0 left-0 w-32 opacity-25 z-0 scale-y-[-1] pointer-events-none" />
-  <img src="/svg/1 441.svg"
-       class="absolute top-0 right-0 w-32 opacity-25 z-0 scale-x-[-1] scale-y-[-1] pointer-events-none" /> {% endcomment %}
-
   <!-- КОНТЕНТ -->
   <div class="relative z-10 flex flex-col items-center gap-2 md:gap-3 text-[#fefefe]">
     <h1 class="text-4xl font-bold tracking-widest flex items-center justify-center">
       <img src="{% static 'лого этно.png' %}" class="w-40 h-30" alt="">
     </h1>
 
-    <p class="text-4xl font-bold ">Кафе</p>
-    <p class="text-lg font-semibold">У истока традиций</p>
+    <p class="text-4xl font-bold font-['Marck_Script']">Кафе</p>
+    <p class="text-xl font-semibold font-['Marck_Script']">У истоков традиций</p>
   </div>
 
 </header>
 
-<section class="relative overflow-hidden" style="background-image: url('{%static 'bg2.png'%}');background-size: cover; min-height:50vh;">
-  <div class="absolute w-full h-full bg-black left-0 top-0" style="opacity: 0.4;"></div>
+<section class="relative overflow-hidden" style="background-image: url('{%static 'bgh.png'%}');background-size: contain; min-height:50vh;">
+  <div class="absolute w-full h-full bg-black left-0 top-0" style="opacity: 0.55;"></div>
 
   <!-- УГЛЫ -->
   <img src="{%static '1 441.svg' %}"
@@ -125,23 +97,78 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-[#3a2a1a] text-[#efe3d0] py-10">
-  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-6">
+<footer class=" relative overflow-hidden py-12 text-white"
+        style="background-image:url('{%static '123.png'%}');">
+          <!-- УГЛЫ -->
+  <img src="{%static '1 441.svg' %}"
+       class="absolute bottom-0 left-0 w-32 opacity-40 z-0" />
+
+  <img src="{%static '1 441.svg' %}"
+       class="absolute bottom-0 right-0 w-32 opacity-40 z-0 scale-x-[-1]" />
+
+  <img src="{%static '1 441.svg' %}"
+       class="absolute top-0 left-0 w-32 opacity-40 z-0 scale-y-[-1]" />
+
+  <img src="{%static '1 441.svg' %}"
+       class="absolute top-0 right-0 w-32 opacity-40 z-0 scale-x-[-1] scale-y-[-1]" />
+
+
+  <!-- МЯГКИЙ ФОН (оверлей) -->
+  <div class="absolute inset-0 bg-black opacity-55 z-0"></div>
+
+  <!-- SVG НАД ФОНОМ, ПОД ТЕКСТОМ -->
+  {% comment %} <img src="{% static '3.svg' %}"
+       class="absolute inset-0 m-auto
+              w-[420px] max-w-full
+              opacity-1
+              z-0
+              pointer-events-none" /> {% endcomment %}
+
+  <!-- КОНТЕНТ -->
+  <div class="relative text-center z-10 max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-6">
+
     <div>
-      <h3 class="text-xl font-bold mb-2">⛰ У истока традиций</h3>
-      <p>Заведение для хорошего времяпровождения 🍷🥩</p>
+      <h3 class="flex gap-2 items-center justify-center text-xl font-bold mb-2"><img src="{%static 'yrt.svg'%}" class="w-16" alt=""> </h3>
+      <p class="font-roboto text-white/90 text-xl font-['Marck_Script']">
+        Там, где традиции живут. <br>
+        Вкус, проверенный временем
+      </p>
     </div>
+
     <div class="space-y-1">
-      <p class="flex gap-2 text-lg"> Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)</p>
-      <p>🕐 11:00 – 23:00</p>
-      <a href="https://www.instagram.com/ethno.cafe"
+      <p class="flex gap-2 text-lg text-white">
+        Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)
+      </p>
+      <a href="tel:+996554448977"
          target="_blank"
-         class="inline-block mt-2 underline w-16 h-16">
-        <img src="{% static 'inst.png' %}" style="filter: invert(1);" alt="">
+         class="inline-block mt-3 text-xl  opacity-90 hover:opacity-100 transition">
+        +996554448977
       </a>
+      <p class="text-white/90 text-xl">🕐 11:00 – 23:00</p>
+
+      <div class="flex items-center justify-center gap-4">
+        <a href="https://www.instagram.com/ethno.cafe"
+         target="_blank"
+         class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition">
+        <img src="{% static 'inst.png' %}" class="invert" alt="">
+      </a>
+        <a href="https://eda.yandex.kg/ru-kg/r/ethno_cafe?placeSlug=ethno_cafe"
+         target="_blank"
+         class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition">
+        <img src="{% static 'я.png' %}" class="invert" alt="">
+      </a>
+      </a>
+        <a href="https://wa.me/+996554448977"
+         target="_blank"
+         class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition">
+        <img src="{% static 'wh.png' %}" class="invert" alt="">
+      </a>
+      </div>
     </div>
+
   </div>
 </footer>
+
 
 <script>
 let allData = []
