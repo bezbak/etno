@@ -1,7 +1,25 @@
 from django.contrib import admin
+from django.db.models import Q
 from .models import Category, Dish
-from django.core.files.base import ContentFile
 import os
+
+class HasImageFilter(admin.SimpleListFilter):
+    title = "Наличие фото"
+    parameter_name = "has_image"
+
+    def lookups(self, request, model_admin):
+        return (
+            ("yes", "Есть фото"),
+            ("no", "Нет фото"),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == "yes":
+            return queryset.exclude(Q(image="") | Q(image__isnull=True))
+        if self.value() == "no":
+            return queryset.filter(Q(image="") | Q(image__isnull=True))
+        return queryset
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -36,6 +54,8 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "is_available")
+    search_fields = ("name", "description")   # 🔍 поиск
+    list_filter = ("category", "is_available", HasImageFilter)  # 🧩 фильтры
     actions = ["duplicate_dish", "resave_images"]
 
     def duplicate_dish(self, request, queryset):
