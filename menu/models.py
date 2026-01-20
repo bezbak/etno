@@ -1,5 +1,9 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.core.files.base import ContentFile
+from PIL import Image
+import io
+import os
 # Create your models here.
 
 
@@ -36,6 +40,31 @@ class Dish(models.Model):
         max_digits=8, decimal_places=2, verbose_name='Цена')
     is_available = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        if self.image:
+            ext = os.path.splitext(self.image.name)[1].lower()
+
+            # SVG не трогаем
+            if ext in ['.jpg', '.jpeg', '.png']:
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+
+                buffer = io.BytesIO()
+                img.save(
+                    buffer,
+                    format="WEBP",
+                    quality=80,      # оптимальный баланс
+                    method=6         # максимальное сжатие
+                )
+
+                webp_name = os.path.splitext(self.image.name)[0] + '.webp'
+                self.image.save(
+                    webp_name,
+                    ContentFile(buffer.getvalue()),
+                    save=False
+                )
+
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
 

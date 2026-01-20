@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Category, Dish
-
+from django.core.files.base import ContentFile
+import os
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -35,7 +36,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "is_available")
-    actions = ["duplicate_dish"]
+    actions = ["duplicate_dish", "resave_images"]
 
     def duplicate_dish(self, request, queryset):
         for dish in queryset:
@@ -52,3 +53,28 @@ class DishAdmin(admin.ModelAdmin):
         self.message_user(request, "Блюда успешно скопированы")
 
     duplicate_dish.short_description = "Скопировать блюдо"
+
+    def resave_images(self, request, queryset):
+        updated = 0
+
+        for dish in queryset:
+            if not dish.image:
+                continue
+
+            ext = os.path.splitext(dish.image.name)[1].lower()
+
+            # SVG и уже WebP не трогаем
+            if ext in [".webp", ".svg"]:
+                continue
+
+            # КЛЮЧЕВО: переустанавливаем файл, чтобы сработал save()
+            dish.image = dish.image
+            dish.save()
+            updated += 1
+
+        self.message_user(
+            request,
+            f"Пересохранено изображений: {updated}"
+        )
+
+    resave_images.short_description = "Пересохранить фото (JPG → WebP)"
