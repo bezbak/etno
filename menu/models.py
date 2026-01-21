@@ -12,6 +12,43 @@ class Category(models.Model):
     order = models.PositiveIntegerField(
         default=0, verbose_name='Место на странице')
 
+    image = models.FileField(
+        upload_to='category_images/',
+        validators=[
+            FileExtensionValidator(allowed_extensions=[
+                                   'jpg', 'jpeg', 'png', 'webp', 'svg'])
+        ],
+        verbose_name='Фото категории',
+        blank=True,
+        null=True
+    )
+
+    def save(self, *args, **kwargs):
+        if self.image:
+            ext = os.path.splitext(self.image.name)[1].lower()
+
+            # SVG не трогаем
+            if ext in ['.jpg', '.jpeg', '.png']:
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+
+                buffer = io.BytesIO()
+                img.save(
+                    buffer,
+                    format="WEBP",
+                    quality=80,      # оптимальный баланс
+                    method=6         # максимальное сжатие
+                )
+
+                webp_name = os.path.splitext(self.image.name)[0] + '.webp'
+                self.image.save(
+                    webp_name,
+                    ContentFile(buffer.getvalue()),
+                    save=False
+                )
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -34,7 +71,7 @@ class Dish(models.Model):
         blank=True,
         null=True
     )
-    weight = models.CharField(max_length=10, verbose_name='Грамовка')
+    weight = models.CharField(max_length=10, verbose_name='Грамовка', blank=True, null=True)
     description = models.TextField(blank=True, verbose_name="Описание")
     price = models.DecimalField(
         max_digits=8, decimal_places=2, verbose_name='Цена')
@@ -65,6 +102,7 @@ class Dish(models.Model):
                 )
 
         super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 

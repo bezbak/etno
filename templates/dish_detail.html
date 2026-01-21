@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ dish.name }} — Этно кафе</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet" />
+  </head>
+
+  <body class="bg-[#efe3d0] text-[#3a2a1a]">
+    <header class="py-6 px-4 border-b-4 border-[#8b3a3a]">
+      <div class="max-w-3xl mx-auto">
+        <a href="/category/{{ dish.category.id }}/" class="text-sm opacity-80 hover:opacity-100">← Назад</a>
+      </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-12">
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-[#d6c2a3]">
+        <div class="h-96 bg-black cursor-pointer hover:opacity-90 transition" id="imageContainer">
+          <img id="dishImage"
+            src="{% if dish.image %}
+              {{ dish.image.url }}
+            {% else %}
+              {% static 'no-image.jpg' %}
+            {% endif %}"
+            alt="{{ dish.name }}"
+            class="w-full h-full object-contain" />
+        </div>
+        <div class="p-8 space-y-6">
+          <h1 class="md:text-4xl text-xl font-bold">{{ dish.name }}</h1>
+          <p class="text-md opacity-70">{{ dish.description }}</p>
+
+          <div class="flex flex-col gap-4 bg-[#f5f1eb] p-4 rounded-lg">
+            <div>
+              <p class="text-sm opacity-70">Вес</p>
+              <p class="text-2xl font-bold">{{ dish.weight }} г</p>
+            </div>
+            <div>
+              <p class="text-sm opacity-70">Цена</p>
+              <p class="text-2xl font-bold text-[#8b3a3a]">{{ dish.price }} сом</p>
+            </div>
+          </div>
+
+          {% comment %} <a href="https://wa.me/+996554448977?text=Заказ: {{ dish.name }}" target="_blank" class="block w-full bg-[#8b3a3a] text-white py-3 rounded-lg text-center font-bold hover:opacity-90 transition">Заказать в WhatsApp</a> {% endcomment %}
+        </div>
+      </div>
+    </main>
+
+    <!-- MODAL WINDOW -->
+    <div id="imageModal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+      <div class="relative max-w-4xl w-full">
+        <button onclick="closeModal()" class="absolute -top-10 right-0 text-white text-3xl hover:opacity-70 transition">✕</button>
+        <img id="modalImage" src="" alt="{{ dish.name }}" class="w-full h-auto rounded-lg" />
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative overflow-hidden py-12 text-white" style="background-image:url('{% static '123.png' %}');">
+      <!-- УГЛЫ -->
+      <img src="{% static '1 441.svg' %}" class="absolute bottom-0 left-0 w-32 opacity-40 z-0" />
+
+      <img src="{% static '1 441.svg' %}" class="absolute bottom-0 right-0 w-32 opacity-40 z-0 scale-x-[-1]" />
+
+      <img src="{% static '1 441.svg' %}" class="absolute top-0 left-0 w-32 opacity-40 z-0 scale-y-[-1]" />
+
+      <img src="{% static '1 441.svg' %}" class="absolute top-0 right-0 w-32 opacity-40 z-0 scale-x-[-1] scale-y-[-1]" />
+
+      <!-- МЯГКИЙ ФОН (оверлей) -->
+      <div class="absolute inset-0 bg-black opacity-55 z-0"></div>
+
+      <!-- КОНТЕНТ -->
+      <div class="relative text-center z-10 max-w-4xl mx-auto px-4 grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="flex gap-2 items-center justify-center text-xl font-bold mb-2"><img src="{% static 'yrt.svg' %}" class="w-16" alt="" /></h3>
+          <p class="font-roboto text-white/90 text-xl font-['Marck_Script']">
+            Там, где традиции живут. <br />
+            Вкус, проверенный временем
+          </p>
+        </div>
+
+        <div class="space-y-1">
+          <p class="flex gap-2 text-lg text-white">Алымбека Датки 212/1 (ор-р кинотеатр «НУР»)</p>
+          <a href="tel:+996554448977" target="_blank" class="inline-block mt-3 text-xl opacity-90 hover:opacity-100 transition">+996554448977</a>
+          <p class="text-white/90 text-xl">🕐 11:00 – 23:00</p>
+
+          <div class="flex items-center justify-center gap-4">
+            <a href="https://www.instagram.com/ethno.cafe" target="_blank" class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition"><img src="{% static 'inst.png' %}" class="invert" alt="" /></a>
+            <a href="https://eda.yandex.kg/ru-kg/r/ethno_cafe?placeSlug=ethno_cafe" target="_blank" class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition"><img src="{% static 'я.png' %}" class="invert" alt="" /></a>
+            <a href="https://wa.me/+996554448977" target="_blank" class="inline-block mt-3 w-12 h-12 opacity-90 hover:opacity-100 transition"><img src="{% static 'wh.png' %}" class="invert" alt="" /></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const imageContainer = document.getElementById('imageContainer')
+      const dishImage = document.getElementById('dishImage')
+      const imageModal = document.getElementById('imageModal')
+      const modalImage = document.getElementById('modalImage')
+      
+      // Открытие модального окна при клике на фото
+      imageContainer.addEventListener('click', () => {
+        modalImage.src = dishImage.src
+        imageModal.classList.remove('hidden')
+        document.body.style.overflow = 'hidden'
+      })
+      
+      // Закрытие модального окна
+      function closeModal() {
+        imageModal.classList.add('hidden')
+        document.body.style.overflow = 'auto'
+      }
+      
+      // Закрытие при клике на фон
+      imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+          closeModal()
+        }
+      })
+      
+      // Закрытие по Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeModal()
+        }
+      })
+    </script>
+  </body>
+</html>
