@@ -31,7 +31,11 @@
           {% for dish in dishes %}
             <a href="/dish/{{ dish.id }}/" class="bg-white rounded-2xl shadow-lg overflow-hidden border border-[#d6c2a3] hover:shadow-xl transition">
               <div class="h-48 bg-black">
-                <img src="{{ dish.image.url }}" alt="{{ dish.name }}" class="w-full h-full object-contain" />
+                <img src="{% if dish.image %}
+              {{ dish.image.url }}
+            {% else %}
+              {% static 'no-image.jpg' %}
+            {% endif %}" alt="{{ dish.name }}" class="w-full h-full object-contain" />
               </div>
               <div class="p-4 space-y-2">
                 <h3 class="font-bold text-lg">{{ dish.name }}</h3>
