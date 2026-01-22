@@ -10,7 +10,7 @@ import os
 class Category(models.Model):
     name = models.CharField(max_length=120, verbose_name='Название')
     order = models.PositiveIntegerField(
-        default=0, verbose_name='Место на странице')
+        default=0, verbose_name='Место на странице', help_text='Чем меньше значение, тем выше позиция на странице')
 
     image = models.FileField(
         upload_to='category_images/',
@@ -23,6 +23,13 @@ class Category(models.Model):
         null=True
     )
     is_active = models.BooleanField(default=True)
+    parent = models.ForeignKey(
+        'self',
+        related_name='subcategories',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
+    )
 
     def save(self, *args, **kwargs):
         if self.image:
@@ -78,6 +85,8 @@ class Dish(models.Model):
     price = models.DecimalField(
         max_digits=8, decimal_places=2, verbose_name='Цена')
     is_available = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(
+        default=0, verbose_name='Место на странице', help_text='Чем меньше значение, тем выше позиция на странице')
 
     def save(self, *args, **kwargs):
         if self.image:

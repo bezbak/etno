@@ -3,6 +3,7 @@ from django.db.models import Q
 from .models import Category, Dish
 import os
 
+
 class HasImageFilter(admin.SimpleListFilter):
     title = "Наличие фото"
     parameter_name = "has_image"
@@ -21,11 +22,31 @@ class HasImageFilter(admin.SimpleListFilter):
         return queryset
 
 
+class SubcategoryInline(admin.TabularInline):
+    model = Category
+    fk_name = 'parent'
+    fields = ('name', 'order', 'is_active')
+    extra = 0
+
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "is_active")
+    list_display = ("name", "parent", "get_is_active")
     list_filter = ("is_active",)
-    actions = ["duplicate_category", "activate_categories", "deactivate_categories"]
+    actions = ["duplicate_category",
+               "activate_categories", "deactivate_categories"]
+    inlines = [SubcategoryInline]
+
+    def get_is_active(self, obj):
+        return obj.is_active
+    get_is_active.boolean = True
+    get_is_active.short_description = "Активна"
+
+    def get_inline_instances(self, request, obj=None):
+        # Показываем инлайн только если есть дочерние категории
+        if obj is None or not obj.subcategories.exists():
+            return []
+        return super().get_inline_instances(request, obj)
 
     def duplicate_category(self, request, queryset):
         for category in queryset:
@@ -66,10 +87,16 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
-    list_display = ("name", "category", "price", "is_available")
+    list_display = ("name", "category", "price", "get_is_available")
     search_fields = ("name", "description")   # 🔍 поиск
     list_filter = ("category", "is_available", HasImageFilter)  # 🧩 фильтры
-    actions = ["duplicate_dish", "resave_images", "make_available", "make_unavailable"]
+    actions = ["duplicate_dish", "resave_images",
+               "make_available", "make_unavailable"]
+
+    def get_is_available(self, obj):
+        return obj.is_available
+    get_is_available.boolean = True
+    get_is_available.short_description = "Доступно"
 
     def duplicate_dish(self, request, queryset):
         for dish in queryset:
