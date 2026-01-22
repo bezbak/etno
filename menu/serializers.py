@@ -5,7 +5,7 @@ from .models import Category, Dish
 class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'image']
 
 
 class DishSerializer(serializers.ModelSerializer):
@@ -19,4 +19,4 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'dishes']
+        fields = ['id', 'name', 'dishes', 'image']
