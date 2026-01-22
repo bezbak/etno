@@ -5,17 +5,19 @@ from .serializers import CategorySerializer, CategoryListSerializer
 
 
 class CategoryAPIView(ListAPIView):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().filter(is_active=True)
     serializer_class = CategoryListSerializer
 
 
 class MenuAPIView(ListAPIView):
-    queryset = Category.objects.prefetch_related('dishes').order_by('order')
+    queryset = Category.objects.prefetch_related(
+        'dishes').order_by('order').filter(is_active=True)
     serializer_class = CategorySerializer
 
 
 def index(request):
     return render(request, 'index.html')
+
 
 def category_detail(request, category_id):
     category = get_object_or_404(Category, id=category_id)

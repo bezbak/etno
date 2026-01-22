@@ -22,6 +22,7 @@ class Category(models.Model):
         blank=True,
         null=True
     )
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if self.image:
@@ -71,7 +72,8 @@ class Dish(models.Model):
         blank=True,
         null=True
     )
-    weight = models.CharField(max_length=10, verbose_name='Грамовка', blank=True, null=True)
+    weight = models.CharField(
+        max_length=10, verbose_name='Грамовка', blank=True, null=True)
     description = models.TextField(blank=True, verbose_name="Описание")
     price = models.DecimalField(
         max_digits=8, decimal_places=2, verbose_name='Цена')
