@@ -33,6 +33,7 @@ class SubcategoryInline(admin.TabularInline):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "parent", "get_is_active", "order")
     list_filter = ("is_active",)
+    ordering = ("name",)
     actions = ["duplicate_category",
                "activate_categories", "deactivate_categories"]
     inlines = [SubcategoryInline]
@@ -90,6 +91,7 @@ class DishAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "get_is_available")
     search_fields = ("name", "description")   # 🔍 поиск
     list_filter = ("category", "is_available", HasImageFilter)  # 🧩 фильтры
+    ordering = ("name",)
     actions = ["duplicate_dish", "resave_images",
                "make_available", "make_unavailable"]
 
