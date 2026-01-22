@@ -31,7 +31,7 @@ class SubcategoryInline(admin.TabularInline):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "parent", "get_is_active")
+    list_display = ("name", "parent", "get_is_active", "order")
     list_filter = ("is_active",)
     actions = ["duplicate_category",
                "activate_categories", "deactivate_categories"]
