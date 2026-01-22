@@ -23,8 +23,9 @@ class HasImageFilter(admin.SimpleListFilter):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    actions = ["duplicate_category"]
+    list_display = ("name", "is_active")
+    list_filter = ("is_active",)
+    actions = ["duplicate_category", "activate_categories", "deactivate_categories"]
 
     def duplicate_category(self, request, queryset):
         for category in queryset:
@@ -50,13 +51,25 @@ class CategoryAdmin(admin.ModelAdmin):
 
     duplicate_category.short_description = "Скопировать категорию с блюдами"
 
+    def activate_categories(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"Активировано категорий: {updated}")
+
+    activate_categories.short_description = "✅ Включить выбранные категории"
+
+    def deactivate_categories(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f"Деактивировано категорий: {updated}")
+
+    deactivate_categories.short_description = "❌ Выключить выбранные категории"
+
 
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
     list_display = ("name", "category", "price", "is_available")
     search_fields = ("name", "description")   # 🔍 поиск
     list_filter = ("category", "is_available", HasImageFilter)  # 🧩 фильтры
-    actions = ["duplicate_dish", "resave_images"]
+    actions = ["duplicate_dish", "resave_images", "make_available", "make_unavailable"]
 
     def duplicate_dish(self, request, queryset):
         for dish in queryset:
@@ -98,3 +111,15 @@ class DishAdmin(admin.ModelAdmin):
         )
 
     resave_images.short_description = "Пересохранить фото (JPG → WebP)"
+
+    def make_available(self, request, queryset):
+        updated = queryset.update(is_available=True)
+        self.message_user(request, f"Доступно блюд: {updated}")
+
+    make_available.short_description = "✅ Сделать доступными"
+
+    def make_unavailable(self, request, queryset):
+        updated = queryset.update(is_available=False)
+        self.message_user(request, f"Недоступно блюд: {updated}")
+
+    make_unavailable.short_description = "❌ Сделать недоступными"
