@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db.models import Q
+from django.utils.html import format_html
 from .models import Category, Dish
 import os
 
@@ -38,10 +39,9 @@ class CategoryAdmin(admin.ModelAdmin):
                "activate_categories", "deactivate_categories"]
     inlines = [SubcategoryInline]
 
+    @admin.display(boolean=True, description="Активна")
     def get_is_active(self, obj):
         return obj.is_active
-    get_is_active.boolean = True
-    get_is_active.short_description = "Активна"
 
     def get_inline_instances(self, request, obj=None):
         # Показываем инлайн только если есть дочерние категории
@@ -49,6 +49,7 @@ class CategoryAdmin(admin.ModelAdmin):
             return []
         return super().get_inline_instances(request, obj)
 
+    @admin.action(description="Скопировать категорию с блюдами")
     def duplicate_category(self, request, queryset):
         for category in queryset:
             # копируем категорию
@@ -73,17 +74,15 @@ class CategoryAdmin(admin.ModelAdmin):
 
     duplicate_category.short_description = "Скопировать категорию с блюдами"
 
+    @admin.action(description="✅ Включить выбранные категории")
     def activate_categories(self, request, queryset):
         updated = queryset.update(is_active=True)
         self.message_user(request, f"Активировано категорий: {updated}")
 
-    activate_categories.short_description = "✅ Включить выбранные категории"
-
+    @admin.action(description="❌ Выключить выбранные категории")
     def deactivate_categories(self, request, queryset):
         updated = queryset.update(is_active=False)
         self.message_user(request, f"Деактивировано категорий: {updated}")
-
-    deactivate_categories.short_description = "❌ Выключить выбранные категории"
 
 
 @admin.register(Dish)
@@ -95,11 +94,11 @@ class DishAdmin(admin.ModelAdmin):
     actions = ["duplicate_dish", "resave_images",
                "make_available", "make_unavailable"]
 
+    @admin.display(boolean=True, description="Доступно")
     def get_is_available(self, obj):
         return obj.is_available
-    get_is_available.boolean = True
-    get_is_available.short_description = "Доступно"
 
+    @admin.action(description="Скопировать блюдо")
     def duplicate_dish(self, request, queryset):
         for dish in queryset:
             Dish.objects.create(
@@ -114,8 +113,7 @@ class DishAdmin(admin.ModelAdmin):
 
         self.message_user(request, "Блюда успешно скопированы")
 
-    duplicate_dish.short_description = "Скопировать блюдо"
-
+    @admin.action(description="Пересохранить фото (JPG → WebP)")
     def resave_images(self, request, queryset):
         updated = 0
 
@@ -139,16 +137,12 @@ class DishAdmin(admin.ModelAdmin):
             f"Пересохранено изображений: {updated}"
         )
 
-    resave_images.short_description = "Пересохранить фото (JPG → WebP)"
-
+    @admin.action(description="✅ Сделать доступными")
     def make_available(self, request, queryset):
         updated = queryset.update(is_available=True)
         self.message_user(request, f"Доступно блюд: {updated}")
 
-    make_available.short_description = "✅ Сделать доступными"
-
+    @admin.action(description="❌ Сделать недоступными")
     def make_unavailable(self, request, queryset):
         updated = queryset.update(is_available=False)
         self.message_user(request, f"Недоступно блюд: {updated}")
-
-    make_unavailable.short_description = "❌ Сделать недоступными"
