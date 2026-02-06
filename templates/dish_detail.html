@@ -36,7 +36,7 @@
           <div class="flex flex-col gap-4 bg-[#f5f1eb] p-4 rounded-lg">
             <div>
               <p class="text-sm opacity-70">Вес</p>
-              <p class="text-2xl font-bold">{{ dish.weight }} г</p>
+              <p class="text-2xl font-bold">{{ dish.weight }}{% if dish.weight %} г{% endif %}</p>
             </div>
             <div>
               <p class="text-sm opacity-70">Цена</p>

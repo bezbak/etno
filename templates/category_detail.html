@@ -68,7 +68,7 @@
                 <h3 class="font-bold text-lg">{{ dish.name }}</h3>
                 <p class="text-sm opacity-70">{{ dish.description }}</p>
                 <div class="flex justify-between items-center pt-2">
-                  <span class="text-sm">{{ dish.weight }} г</span>
+                  <span class="text-sm">{{ dish.weight }}{% if dish.weight %} г{% endif %}</span>
                   <span class="font-bold text-[#8b3a3a]">{{ dish.price }} сом</span>
                 </div>
               </div>
