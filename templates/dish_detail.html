@@ -34,10 +34,12 @@
           <p class="text-md opacity-70">{{ dish.description }}</p>
 
           <div class="flex flex-col gap-4 bg-[#f5f1eb] p-4 rounded-lg">
+            {% if dish.weight %}
             <div>
-              <p class="text-sm opacity-70">Вес</p>
-              <p class="text-2xl font-bold">{{ dish.weight }}{% if dish.weight %} г{% endif %}</p>
-            </div>
+                <p class="text-sm opacity-70">Вес</p>
+                <p class="text-2xl font-bold">{{ dish.weight }} г</p>
+              </div>
+            {% endif %}
             <div>
               <p class="text-sm opacity-70">Цена</p>
               <p class="text-2xl font-bold text-[#8b3a3a]">{{ dish.price }} сом</p>
